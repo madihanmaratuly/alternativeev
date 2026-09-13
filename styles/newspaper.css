@@ -1,0 +1,229 @@
+/* ============================================================
+   ХРОНОСФЕРА — Стили ретро-артефакта (Vintage Newspaper / Decree)
+   ============================================================ */
+
+.artifact-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Обертка газетного листа */
+.newspaper-wrapper {
+  background: #f5eedb;
+  background-image: 
+    radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0),
+    linear-gradient(180deg, rgba(160, 130, 90, 0.08) 0%, transparent 100%);
+  background-size: 16px 16px, 100% 100%;
+  color: #1a1612;
+  border-radius: var(--radius-md);
+  padding: 36px 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(160, 130, 90, 0.15);
+  border: 1px solid #d4c5a9;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-serif);
+}
+
+/* Штамп архива */
+.archive-stamp {
+  position: absolute;
+  top: 30px;
+  right: 35px;
+  border: 3px solid #b91c1c;
+  color: #b91c1c;
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transform: rotate(8deg);
+  opacity: 0.85;
+  pointer-events: none;
+  border-radius: 4px;
+  mask-image: radial-gradient(circle, #000 70%, transparent 100%);
+}
+
+/* Шапка газеты */
+.newspaper-header {
+  text-align: center;
+  border-bottom: 3px double #1a1612;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.newspaper-source {
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: var(--font-serif);
+  line-height: 1.1;
+  margin-bottom: 8px;
+  color: #110e0b;
+}
+
+.newspaper-meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #1a1612;
+  border-bottom: 1px solid #1a1612;
+  padding: 5px 0;
+  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* Передовица */
+.newspaper-headline {
+  font-size: clamp(1.3rem, 3.2vw, 1.95rem);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.25;
+  margin: 18px 0 16px;
+  letter-spacing: -0.01em;
+  color: #0f0c09;
+}
+
+.newspaper-lead {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-style: italic;
+  text-align: justify;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #c9bca0;
+}
+
+/* Первая буква (буквица) */
+.newspaper-lead::first-letter {
+  float: left;
+  font-size: 3.2rem;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-bottom: 2px;
+  font-weight: 900;
+  font-family: var(--font-serif);
+  color: #110e0b;
+}
+
+/* Колонки */
+.newspaper-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.newspaper-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.newspaper-col:not(:last-child) {
+  border-right: 1px solid #d4c5a9;
+  padding-right: 20px;
+}
+
+.newspaper-col h5 {
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #1a1612;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.newspaper-col p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  text-align: justify;
+  color: #2b251f;
+}
+
+/* ============================================================
+   ПЕЧАТЬ И ЭКСПОРТ (@media print)
+   ============================================================ */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  #temporal-canvas,
+  .site-header,
+  .hero-section,
+  .scenario-actions,
+  .branches-section,
+  .site-footer,
+  .modal-overlay,
+  .toast-container {
+    display: none !important;
+  }
+
+  .app-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .scenario-view {
+    display: flex !important;
+  }
+
+  .scenario-meta-card,
+  .timeline-node,
+  .sphere-card,
+  .butterfly-card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .newspaper-wrapper {
+    box-shadow: none !important;
+    border: 2px solid #000000 !important;
+    page-break-inside: avoid;
+  }
+
+  .timeline-container::before {
+    background: #000000 !important;
+    box-shadow: none !important;
+  }
+
+  .timeline-node::before {
+    border-color: #000000 !important;
+    box-shadow: none !important;
+  }
+
+  .node-year-badge {
+    background: #eeeeee !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .newspaper-wrapper {
+    padding: 24px 18px;
+  }
+  .archive-stamp {
+    position: static;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .newspaper-col:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid #d4c5a9;
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+}

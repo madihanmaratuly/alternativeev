@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Хроносфера — Альтернативная история: Что было бы, если...</title>
+  <meta name="description" content="Интерактивный симулятор альтернативной истории с ИИ. Узнайте, что произошло бы, если бы люди не изобрели интернет или ключевые события пошли иначе. Четкие структурированные ответы.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/timeline.css">
+  <link rel="stylesheet" href="styles/newspaper.css">
+  <link rel="stylesheet" href="styles/ai-oracle.css">
+</head>
+<body>
+  <!-- Фоновый холст квантового потока в теплых тонах -->
+  <canvas id="temporal-canvas"></canvas>
+
+  <div class="app-container">
+    <!-- Шапка приложения -->
+    <header class="site-header">
+      <div class="brand-wrapper">
+        <div class="brand-icon-wrap" title="Хроно-резонатор">
+          <svg viewBox="0 0 24 24" stroke-width="2">
+            <circle cx="12" cy="12" r="10" stroke="currentColor"/>
+            <polyline points="12 6 12 12 16 14" stroke="currentColor"/>
+            <circle cx="12" cy="12" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>ХРОНОСФЕРА <span class="version-badge">v3.2 Warm Edition</span></h1>
+          <p>Лаборатория расширенного моделирования альтернативных реальностей с ИИ</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-sound" class="icon-btn active" title="Звуковые эффекты (вкл/выкл)" aria-label="Звук">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+
+        <button id="btn-favorites" class="icon-btn" title="Сохраненные хроники" aria-label="Избранное">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </button>
+
+        <button id="btn-settings" class="icon-btn" title="Параметры и Gemini API" aria-label="Настройки">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Главная секция запроса (Hero) -->
+    <section class="hero-section">
+      <div class="hero-tagline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        ИИ-Хронограф параллельных реальностей • Расширенная летопись
+      </div>
+
+      <h2 class="hero-title">
+        Что произошло бы, если бы <span>история свернула?</span>
+      </h2>
+      <p class="hero-subtitle">
+        Задайте любую историческую развилку. Хронограф подробно смоделирует точку расхождения, эпохи с ключевыми датами, 24 часа из жизни обычного человека, институты и ответит на любые ваши вопросы через ИИ.
+      </p>
+
+      <!-- Форма ввода -->
+      <div class="query-box-container">
+        <form id="chrono-form" class="query-box" autocomplete="off">
+          <input 
+            type="text" 
+            id="query-input" 
+            placeholder="Например: Что было бы, если бы люди не изобрели интернет?" 
+            required
+          />
+          <button type="submit" class="btn-launch" id="btn-submit">
+            <span>Рассчитать ветвь</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Быстрые сценарии для теста -->
+      <div class="presets-container">
+        <span class="presets-label">Популярные точки бифуркации:</span>
+        <div class="preset-chips">
+          <button class="chip-btn highlight" data-query="Что было бы, если бы люди не изобрели интернет?">
+            🌐 Без интернета
+          </button>
+          <button class="chip-btn" data-query="Что было бы, если бы Наполеон победил при Ватерлоо?">
+            👑 Наполеон победил при Ватерлоо
+          </button>
+          <button class="chip-btn" data-query="Что было бы, если бы СССР не распался?">
+            🚩 СССР сохранился (ОГАС)
+          </button>
+          <button class="chip-btn" data-query="Что было бы, если бы динозавры не вымерли?">
+            🦖 Динозавры не вымерли
+          </button>
+          <button class="chip-btn" data-query="Что было бы, если бы Римская империя не пала?">
+            🏛️ Вечный Рим
+          </button>
+          <button class="chip-btn" data-query="Что было бы, если бы электричество не открыли?">
+            ⚡ Без электричества (Стимпанк)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Индикатор загрузки -->
+    <div class="chrono-loader" id="chrono-loader">
+      <div class="portal-ring"></div>
+      <div class="loader-text" id="loader-text">ИИ синхронизирует квантовые вероятности...</div>
+    </div>
+
+    <!-- Область результатов (Scenario View) -->
+    <main class="scenario-view" id="scenario-view">
+      <!-- 1. Мета-карточка реальности -->
+      <article class="scenario-meta-card">
+        <div class="scenario-header-top">
+          <div class="bifurcation-badge" id="sc-bifurcation">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span id="sc-bifurcation-text">Точка расхождения</span>
+          </div>
+
+          <div class="scenario-actions">
+            <button class="btn-secondary" id="btn-save-fav" title="Сохранить в избранное">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span id="fav-btn-label">В избранное</span>
+            </button>
+            <button class="btn-secondary" id="btn-print" title="Экспорт в печать / PDF">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>Печать / PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <h3 class="scenario-title" id="sc-title">Заголовок ветви реальности</h3>
+        <p class="scenario-summary" id="sc-summary">Краткое описание хроники...</p>
+
+        <!-- Метрики -->
+        <div class="divergence-metrics">
+          <div class="metric-item">
+            <div class="metric-label">Степень расхождения</div>
+            <div class="metric-value">
+              <span id="sc-score">88</span>%
+            </div>
+            <div class="divergence-bar-wrap">
+              <div class="divergence-bar-fill" id="sc-score-bar" style="width: 88%;"></div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">Класс парадокса</div>
+            <div class="metric-value" style="font-size: 1.05rem;" id="sc-paradox-class">
+              Глубокая трансформация
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">ИИ-Статус</div>
+            <div class="metric-value" style="font-size: 1.05rem; color: #4ade80;">
+              ● Анализ завершен
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Интерактивная шкала времени -->
+      <section class="timeline-section">
+        <div class="section-title-wrap">
+          <h3 class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            Хронология ключевых эпох (Подробная летопись)
+          </h3>
+        </div>
+        <div class="timeline-container" id="sc-timeline-list">
+          <!-- Заполняется динамически -->
+        </div>
+      </section>
+
+      <!-- 3. Сферы влияния -->
+      <section class="spheres-section">
+        <div class="section-title-wrap">
+          <h3 class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            Трансформация сфер цивилизации (Детальный разбор)
+          </h3>
+        </div>
+        <div class="spheres-grid">
+          <div class="sphere-card tech">
+            <div class="sphere-header">
+              <div class="sphere-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <h4>Наука и технологии</h4>
+            </div>
+            <p class="sphere-content" id="sc-sphere-tech">...</p>
+          </div>
+
+          <div class="sphere-card politics">
+            <div class="sphere-header">
+              <div class="sphere-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                  <line x1="4" y1="22" x2="4" y2="15"></line>
+                </svg>
+              </div>
+              <h4>Геополитика и границы</h4>
+            </div>
+            <p class="sphere-content" id="sc-sphere-politics">...</p>
+          </div>
+
+          <div class="sphere-card daily">
+            <div class="sphere-header">
+              <div class="sphere-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                  <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                  <line x1="6" y1="1" x2="6" y2="4"></line>
+                  <line x1="10" y1="1" x2="10" y2="4"></line>
+                  <line x1="14" y1="1" x2="14" y2="4"></line>
+                </svg>
+              </div>
+              <h4>Быт, культура и люди</h4>
+            </div>
+            <p class="sphere-content" id="sc-sphere-daily">...</p>
+          </div>
+
+          <div class="sphere-card economy">
+            <div class="sphere-header">
+              <div class="sphere-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </div>
+              <h4>Экономика и профессии</h4>
+            </div>
+            <p class="sphere-content" id="sc-sphere-economy">...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Аналитический баланс реальности -->
+      <section class="reality-balance-card">
+        <h4>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3v18M3 6l9-3 9 3M6 10l-3 6h6l-3-6zm12 0l-3 6h6l-3-6z"/>
+          </svg>
+          Аналитический баланс реальности: плюсы и минусы
+        </h4>
+        <div class="balance-two-cols">
+          <div class="balance-col-item gains">
+            <div class="balance-col-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Главные приобретения цивилизации (+)
+            </div>
+            <p class="balance-col-content" id="sc-balance-gains">...</p>
+          </div>
+          <div class="balance-col-item losses">
+            <div class="balance-col-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Главные потери и трудности (-)
+            </div>
+            <p class="balance-col-content" id="sc-balance-losses">...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Хроника одного дня: 24 часа обычного человека -->
+      <section class="deep-dive-section" id="sc-day-section">
+        <div class="day-in-life-card">
+          <h4>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Хроника одного дня: 24 часа из жизни гражданина в 2026 году
+          </h4>
+          <div class="day-timeline-grid" id="sc-day-grid">
+            <!-- Заполняется динамически -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Ключевые институты и столпы реальности -->
+      <section class="deep-dive-section" id="sc-institutions-section">
+        <div class="section-title-wrap">
+          <h3 class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <path d="M3 21h18M3 7v14M21 7v14M6 7V3h12v4M10 11v6M14 11v6"/>
+            </svg>
+            Ключевые институты и корпорации этой ветви
+          </h3>
+        </div>
+        <div class="institutions-grid" id="sc-institutions-grid">
+          <!-- Заполняется динамически -->
+        </div>
+      </section>
+
+      <!-- 7. ИИ-Консультант (Хроно-Оракул / Q&A) -->
+      <section class="ai-oracle-section">
+        <div class="ai-oracle-header">
+          <div class="ai-oracle-title-wrap">
+            <div class="ai-oracle-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                <circle cx="12" cy="5" r="2"></circle>
+                <path d="M12 7v4"></path>
+                <line x1="8" y1="16" x2="8" y2="16"></line>
+                <line x1="16" y1="16" x2="16" y2="16"></line>
+              </svg>
+            </div>
+            <div>
+              <h3>Хроно-ИИ: Задайте вопрос об этой реальности</h3>
+              <p class="ai-oracle-desc">Спросите ИИ о любой бытовой или научной детали этого мира — ответ будет подробным, ровным и структурированным.</p>
+            </div>
+          </div>
+          <div class="ai-status-pill">● Режим: Ровно и четко</div>
+        </div>
+
+        <!-- Форма вопроса -->
+        <form id="ai-oracle-form" class="ai-question-box">
+          <input 
+            type="text" 
+            id="ai-question-input" 
+            class="ai-question-input" 
+            placeholder="Например: «Как люди знакомятся?», «Как работают банки?» или «Кто самый богатый?»" 
+            required
+          />
+          <button type="submit" class="btn-ask-ai" id="btn-ask-ai">
+            <span>Спросить ИИ</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Быстрые вопросы -->
+        <div class="ai-quick-questions">
+          <span class="ai-quick-label">Быстрые вопросы для анализа:</span>
+          <div class="ai-quick-chips" id="ai-quick-chips">
+            <button type="button" class="ai-chip" data-q="Как люди знакомятся и общаются без соцсетей?">👥 Знакомства и общение</button>
+            <button type="button" class="ai-chip" data-q="Как работают деньги, платежи и банки?">💳 Деньги и банки</button>
+            <button type="button" class="ai-chip" data-q="Какая судьба у программистов и IT-специалистов?">💻 Программисты и IT</button>
+            <button type="button" class="ai-chip" data-q="Как устроены междугородние путешествия и транспорт?">🚆 Транспорт и поездки</button>
+            <button type="button" class="ai-chip" data-q="Откуда люди узнают новости и как борются с фейками?">📰 Новости и СМИ</button>
+          </div>
+        </div>
+
+        <!-- Индикатор генерации ответа ИИ -->
+        <div class="ai-loading-box" id="ai-loading-box">
+          <div class="ai-spinner"></div>
+          <span>Хроно-ИИ анализирует архивы реальности... Формулирование подробного ответа...</span>
+        </div>
+
+        <!-- Лента ответов ИИ -->
+        <div class="ai-answers-feed" id="ai-answers-feed"></div>
+      </section>
+
+      <!-- 8. Эффект бабочки -->
+      <aside class="butterfly-card">
+        <div class="butterfly-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 12c2.5-3 6.5-3 9-1s2.5 7-1 9c-3.5 2-7.5-3-8-8z"/>
+            <path d="M12 12c-2.5-3-6.5-3-9-1s-2.5 7 1 9c3.5 2 7.5-3 8-8z"/>
+            <path d="M12 7v10"/>
+          </svg>
+        </div>
+        <div class="butterfly-text">
+          <h4>Парадоксальный «Эффект бабочки»</h4>
+          <p id="sc-butterfly">...</p>
+        </div>
+      </aside>
+
+      <!-- 9. Артефакт реальности (Ретро-газета / Указ) -->
+      <section class="artifact-section">
+        <div class="section-title-wrap">
+          <h3 class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Подлинный артефакт той реальности
+          </h3>
+        </div>
+
+        <div class="newspaper-wrapper" id="sc-newspaper">
+          <div class="archive-stamp" id="art-stamp">АРХИВ ХРОНОСФЕРЫ</div>
+          <div class="newspaper-header">
+            <div class="newspaper-source" id="art-source">ГАЗЕТНЫЙ ВЕСТНИКЪ</div>
+            <div class="newspaper-meta-bar">
+              <span id="art-date">12 октября 1998 года</span>
+              <span id="art-price">Цена: 50 копеек</span>
+              <span>Спецвыпуск Хронографа</span>
+            </div>
+          </div>
+          <h4 class="newspaper-headline" id="art-headline">ГЛАВНЫЙ ЗАГОЛОВОК ПЕРЕДОВИЦЫ</h4>
+          <p class="newspaper-lead" id="art-lead">Текст главной новости...</p>
+          <div class="newspaper-columns" id="art-columns">
+            <!-- Колонки формируются динамически -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Ветвление: Что дальше? -->
+      <section class="branches-section">
+        <h4 class="branches-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+          </svg>
+          Развилки следующего порядка («Что дальше?»):
+        </h4>
+        <div class="branch-chips" id="sc-branches-list">
+          <!-- Кнопки ветвления -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+      <p>«Хроносфера» — Исследовательская модель параллельных исторических траекторий с ИИ.</p>
+      <p>© 2026 Лаборатория Хронографии • Теплый янтарный дизайн • Полная русская локализация</p>
+    </footer>
+  </div>
+
+  <!-- Модальное окно настроек -->
+  <div class="modal-overlay" id="modal-settings">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Параметры генерации и API</h3>
+        <button class="icon-btn close-modal" data-modal="modal-settings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="select-engine">Движок моделирования:</label>
+          <select id="select-engine">
+            <option value="builtin">Встроенный Хроно-Интеллект (Быстро, Офлайн, Расширенный)</option>
+            <option value="gemini">Google Gemini API (Глубокая языковая модель)</option>
+          </select>
+          <span class="form-hint">Встроенный движок генерирует детальные сценарии мгновенно прямо в вашем браузере в режиме «Ровно и четко».</span>
+        </div>
+
+        <div class="form-group" id="group-gemini-key">
+          <label for="input-gemini-key">Gemini API Ключ:</label>
+          <input type="password" id="input-gemini-key" placeholder="AIzaSy...">
+          <span class="form-hint">Ключ сохраняется исключительно в вашем браузере (LocalStorage) и используется только для запросов к Google Generative Language API.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary close-modal" data-modal="modal-settings">Закрыть</button>
+        <button class="btn-launch" id="btn-save-settings">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно избранного -->
+  <div class="modal-overlay" id="modal-favorites">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Сохраненные хроники</h3>
+        <button class="icon-btn close-modal" data-modal="modal-favorites">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="favorites-list" id="favorites-container">
+          <p style="color: var(--text-dim); text-align: center; padding: 20px;">Нет сохраненных хроник. Нажмите «В избранное» при просмотре сценария.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary close-modal" data-modal="modal-favorites">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Контейнер всплывающих уведомлений (Toast) -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Скрипты -->
+  <script src="https://js.puter.com/v2/"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/presets.js"></script>
+  <script src="js/causal-engine.js"></script>
+  <script src="js/gemini-api.js"></script>
+  <script src="js/ai-oracle.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

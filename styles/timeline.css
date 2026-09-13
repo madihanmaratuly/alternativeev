@@ -1,0 +1,381 @@
+/* ============================================================
+   ХРОНОСФЕРА — Стили временной шкалы и сфер (Теплая гамма)
+   Углубленное представление эпох, сфер влияния и эффекта бабочки
+   ============================================================ */
+
+/* Секция таймлайна */
+.timeline-section {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--accent-amber);
+}
+
+.timeline-container {
+  position: relative;
+  padding: 20px 0 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+/* Вертикальная светящаяся линия времени (теплый янтарно-медный градиент) */
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 11px;
+  width: 2px;
+  background: linear-gradient(180deg, 
+    var(--accent-gold) 0%, 
+    var(--accent-amber) 40%, 
+    var(--accent-copper) 75%, 
+    var(--accent-terracotta) 100%);
+  box-shadow: 0 0 12px var(--accent-amber-glow);
+}
+
+/* Карточка эпохи */
+.timeline-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 26px 30px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.timeline-node:hover {
+  border-color: var(--accent-amber);
+  transform: translateX(6px);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.15);
+}
+
+/* Узловая светящаяся точка на линии */
+.timeline-node::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: -27px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-amber);
+  box-shadow: 0 0 12px var(--accent-amber);
+  transition: var(--transition);
+}
+
+.timeline-node:hover::before {
+  background: var(--accent-amber);
+  box-shadow: 0 0 18px var(--accent-gold);
+  transform: scale(1.25);
+}
+
+.node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.node-year-badge {
+  font-family: var(--font-mono);
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: #120e0c;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 12px var(--accent-amber-glow);
+}
+
+.node-epoch-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent-copper);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.node-headline {
+  font-size: 1.32rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.35;
+}
+
+.node-description {
+  font-size: 1.02rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* Детальные маркеры внутри описания эпохи */
+.node-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  padding-left: 20px;
+  font-size: 0.94rem;
+  color: #ded5c7;
+}
+
+.node-details-list li {
+  line-height: 1.6;
+}
+
+.node-details-list li strong {
+  color: var(--accent-gold);
+}
+
+.node-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.96rem;
+  color: #fed7aa;
+  background: rgba(245, 158, 11, 0.08);
+  border-left: 3px solid var(--accent-amber);
+  padding: 12px 18px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   СЕТКА СФЕР ВЛИЯНИЯ (4 SPHERES)
+   ============================================================ */
+.spheres-section {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.spheres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 22px;
+}
+
+.sphere-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.sphere-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+.sphere-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.sphere-card.tech::after { background: var(--accent-amber); }
+.sphere-card.tech:hover { border-color: var(--accent-amber); }
+
+.sphere-card.politics::after { background: var(--accent-copper); }
+.sphere-card.politics:hover { border-color: var(--accent-copper); }
+
+.sphere-card.daily::after { background: var(--accent-gold); }
+.sphere-card.daily:hover { border-color: var(--accent-gold); }
+
+.sphere-card.economy::after { background: var(--accent-sage); }
+.sphere-card.economy:hover { border-color: var(--accent-sage); }
+
+.sphere-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sphere-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sphere-card.tech .sphere-icon-wrap { background: rgba(245, 158, 11, 0.16); color: var(--accent-amber); }
+.sphere-card.politics .sphere-icon-wrap { background: rgba(234, 88, 12, 0.16); color: var(--accent-copper); }
+.sphere-card.daily .sphere-icon-wrap { background: rgba(251, 191, 36, 0.16); color: var(--accent-gold); }
+.sphere-card.economy .sphere-icon-wrap { background: rgba(34, 197, 94, 0.16); color: var(--accent-sage); }
+
+.sphere-icon-wrap svg {
+  width: 22px;
+  height: 22px;
+}
+
+.sphere-header h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.sphere-content {
+  font-size: 0.96rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   ЭФФЕКТ БАБОЧКИ (BUTTERFLY EFFECT)
+   ============================================================ */
+.butterfly-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(234, 88, 12, 0.12) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 26px 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.12);
+  position: relative;
+}
+
+.butterfly-icon-wrap {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-gold);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+}
+
+.butterfly-icon-wrap svg {
+  width: 28px;
+  height: 28px;
+  animation: flutter 3s ease-in-out infinite;
+}
+
+@keyframes flutter {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(6deg); }
+}
+
+.butterfly-text h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.butterfly-text p {
+  font-size: 1rem;
+  color: #ffedd5;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   ВЕТВЛЕНИЕ: ЧТО ДАЛЬШЕ? (NEXT QUESTIONS)
+   ============================================================ */
+.branches-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.branches-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.branch-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.branch-chip-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px 22px;
+  color: var(--text-main);
+  text-align: left;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: var(--transition);
+}
+
+.branch-chip-btn:hover {
+  border-color: var(--accent-amber);
+  background: rgba(245, 158, 11, 0.1);
+  transform: translateX(6px);
+  color: #ffffff;
+}
+
+.branch-chip-btn svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  stroke: var(--accent-amber);
+  transition: transform 0.2s;
+}
+
+.branch-chip-btn:hover svg {
+  transform: translateX(4px);
+}
